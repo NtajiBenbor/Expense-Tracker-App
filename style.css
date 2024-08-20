@@ -42,6 +42,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: 'roboto',sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -62,15 +63,37 @@ table {
 
 /* ==== global styles ==== */
 
+
+h1,h2,h3,h4,h5,h6{
+	font-family:'Oswald', sans-serif;
+}
+
+.subtitle{
+	font-weight: 400;
+	text-transform: capitalize;
+	margin-top: .5em;
+}
+
 label{
 	font-weight: 800;
 	text-transform: uppercase;
+	
 }
+
+table{
+	font-size: 120%;
+}
+
+tr .table-title{
+	font-weight: 600;
+}
+
+
 
 /* ==== layout styles ==== */
 .senter{
-	border: 5px solid red;
-	height: 500px;
+	/* border: 5px solid red; */
+	/* height: 500px; */
 }
 
 .section-center{
@@ -80,7 +103,7 @@ label{
 .form-container{
 	text-transform: capitalize;
 	margin: 0 auto;
-	border: 5px dotted gold;
+	/* border: 5px dotted gold; */
 }
 
 
@@ -90,22 +113,32 @@ label{
 	
 }
 
-/* .trix{
-	border: 2px solid maroon;
-} */
 
+/* buttons */
 
+.add-item-btn,
+.clear-btn,
+.del-btn{
+	font-size: 125%;
+}
 
+.del-btn{
+ /* width: 25%;*/
+ border: 0; 
+ background-color: transparent;
+ font-weight: 800;
+ margin-left: 10px;
+ color: red;
+}
 
-.wrap{
-	background-color: cyan;
-	height: 300px;
+.clear-btn{
+	border: 2px solid red;
 }
 
 
-.wrap:nth-child(2){
-	background-color: maroon;
-}
+
+
+
 
 
 
@@ -115,4 +148,8 @@ label{
 	/* .form-container{
 		width: 70vw;
 	} */
+
+	.del-btn{ 
+		margin-left: 50px;
+	   }
 }

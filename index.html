@@ -25,8 +25,8 @@
         <main class="section-center">
             <!-- app title  -->
             <div>
-                 <h1 class="display-5 text-center">Expense Tracker App</h1>
-                 <h4 class="subtitle display-6 text-center">Add a new item</h4>
+                 <h1 class="display-3 text-center">Expense Tracker App</h1>
+                 <h4 class="subtitle display-6 text-center text-success">Add a new item:</h4>
             </div>
             <!-- form section -->
             <div class="form-container container-md">
@@ -52,10 +52,46 @@
                             <input type="text" id="amount" class="form-control " >
                         </div>
                     </div>
-                    <div class=" trix col-12 d-flex align-items-center justify-content-center">
-                        <button type="submit" class="btn btn-success ntn-lg col-10 col-md-3">Add Item</button>
+                    <!-- add button -->
+                    <div class=" col-12 d-flex align-items-center justify-content-center">
+                        <button type="submit" class="btn pt-2 pd-2 btn-success btn-lg col-10 col-md-3 add-item-btn">Add Item</button>
                     </div>
                 </form>
+            </div>
+            <!-- table section -->
+            <div class="table-section mt-5">
+                <table class="table table-light">
+                    <!-- table heading -->
+                    <thead>
+                        <tr>
+                            <th class="table-title" scope="col">Name</th>
+                            <th class="table-title" scope="col">Date</th>
+                            <th class="table-title" scope="col">Amount</th>
+                            <th class="table-title" scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <!-- table body -->
+                    <tbody class="table-body">
+                        <tr class="table-row">
+                            <th scope="row">Chicken republic</th>
+                            <td>08/20/2024</td>
+                            <td>NGN 1,000</td>
+                            <td>12:45 pm <span>
+                                <!-- delete entry btn -->
+                                <!-- btn btn-sm btn-outline-danger ml-auto -->
+                                    <button type="button" class=" btn btn-sm  del-btn">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <!-- clear btn -->
+                <div class="btn-contaner mt-5 d-flex align-items-center justify-content-center">
+                    <button class=" clear-btn  btn btn-outline-danger col-10 col-md-3">Clear All</button>
+                </div>
             </div>
 
         </main>
