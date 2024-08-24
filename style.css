@@ -56,7 +56,7 @@ q:before, q:after {
 	content: none;
 }
 table {
-	border-collapse: collapse;
+	border-collapse:collapse;
 	border-spacing: 0;
 }
 
@@ -79,13 +79,21 @@ label{
 	text-transform: uppercase;
 	
 }
-
+/* table */
 table{
 	font-size: 120%;
+	/* border: 2px solid red; */
 }
 
 tr .table-title{
 	font-weight: 600;
+}
+/* th,tr,td{
+	border: 2px solid red;
+} */
+
+.table-row{
+	border-bottom: 2px solid #fff;
 }
 
 
@@ -128,11 +136,17 @@ tr .table-title{
  background-color: transparent;
  font-weight: 800;
  margin-left: 10px;
- color: red;
+ color: darkred;
+ transition: ease 300ms;
 }
 
 .clear-btn{
 	border: 2px solid red;
+	display: none;
+}
+
+.del-btn:hover {
+	color: red;
 }
 
 
@@ -152,4 +166,11 @@ tr .table-title{
 	.del-btn{ 
 		margin-left: 50px;
 	   }
+}
+
+
+/* javascript applied classes */
+
+.show-btn{
+	display: block;
 }
