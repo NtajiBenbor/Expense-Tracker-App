@@ -88,9 +88,9 @@ table{
 tr .table-title{
 	font-weight: 600;
 }
-/* th,tr,td{
-	border: 2px solid red;
-} */
+th,tr,td{
+	/* border: 2px solid red; */
+}
 
 .table-row{
 	border-bottom: 2px solid #fff;
@@ -130,14 +130,30 @@ tr .table-title{
 	font-size: 125%;
 }
 
-.del-btn{
+.btns{
  /* width: 25%;*/
  border: 0; 
  background-color: transparent;
  font-weight: 800;
- margin-left: 10px;
- color: darkred;
+ margin-left: auto;
  transition: ease 300ms;
+}
+
+.del-btn{
+	color: darkred;
+}
+
+.del-btn:hover {
+	color: red;
+}
+
+.edit-btn{
+	color: navy;
+	font-size: 1.3em;
+}
+
+.edit-btn:hover{
+	color: blue;
 }
 
 .clear-btn{
@@ -145,8 +161,17 @@ tr .table-title{
 	display: none;
 }
 
-.del-btn:hover {
-	color: red;
+
+
+/* alert */
+
+.alert{
+	width: 60%;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 125%;
+
+
 }
 
 
