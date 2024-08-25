@@ -79,6 +79,11 @@ label{
 	text-transform: uppercase;
 	
 }
+
+.btn{
+	font-family: inherit;
+	text-transform: capitalize;
+}
 /* table */
 table{
 	font-size: 120%;
@@ -87,9 +92,11 @@ table{
 
 tr .table-title{
 	font-weight: 600;
+	padding: 1em;
+	border-bottom: 2px solid #fff;
 }
-th,tr,td{
-	/* border: 2px solid red; */
+.placeholder-row{
+	font-family: inherit;
 }
 
 .table-row{
@@ -167,11 +174,15 @@ th,tr,td{
 
 .alert{
 	width: 60%;
+	padding: .3em;
 	margin: 0 auto;
 	text-align: center;
-	font-size: 125%;
+	font-size: 110%;
+	text-transform: capitalize;
+}
 
-
+.alerts-container{
+	height: 30.125px;
 }
 
 
