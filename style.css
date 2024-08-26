@@ -95,8 +95,12 @@ tr .table-title{
 	padding: 1em;
 	border-bottom: 2px solid #fff;
 }
-.placeholder-row{
+#placeholder-row{
 	font-family: inherit;
+}
+
+#placeholder-row .placeholder-txt{
+	color: grey;
 }
 
 .table-row{

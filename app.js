@@ -8,7 +8,7 @@ const tableBody = document.querySelector('.table-body');
 const alert = document.querySelector('.alert');
 const clearBtn = document.querySelector('.clear-btn');
 const addItemBtn = document.querySelector('.add-item-btn');
-const placeHolderRow = document.getElementById("placeholder-row")
+const placeHolderRow = document.getElementById("placeholder-row");
 
 // Other variables
 let editFlag = false;
@@ -41,9 +41,9 @@ function addExpense(e){
     let itemValue = expenseDesc.value;
     let itemDate = date.value;
     let itemCost = amountSpent.value
+   
     //converting hrs to 12hrs format
     let NewDate = new Date();
-
     // Function to get the hour in 12-hour format
     let getHoursIn12Format = function(date) {
         return date.getHours() % 12 || 12;
@@ -70,7 +70,7 @@ function addExpense(e){
             attr.value = id;
             tableRow.setAttributeNode(attr);
         
-
+            //assign entry value to the table row 
             tableRow.innerHTML = `<th scope="row">${itemValue}</th>
             <td>${itemDate}</td>
             <td>NGN ${itemCost}</td>
@@ -83,17 +83,17 @@ function addExpense(e){
                     </button>
                     <button type="button" class=" btn btns btn-sm  edit-btn">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        
                     </button>
                 </span>
-            
             </td>`;
-        // PM or AM
-        // const timeSuffix = document.querySelector('.suffix')
-        // console.log(timeSuffix);
-        // timeSuffix.innertextContent = NewDate.getHours>12? 'PM':'AM';
         // append new row to table
         tableBody.appendChild(tableRow);
+         // adding PM or AM
+         const timeSuffix = document.querySelectorAll('.suffix')
+        //  console.log(timeSuffix);
+         timeSuffix.forEach(suffix=>{
+            suffix.textContent = NewDate.getHours() > 12 ? 'PM':'AM';
+         })
         // DOM variable assignment Delete and edit buttons
         const delBtn = document.querySelectorAll('.del-btn');
         const editBtn = document.querySelectorAll('.edit-btn');
@@ -179,7 +179,7 @@ function deleteEntry(e){
         clearBtn.classList.remove('show-btn');
     }
     // display alert
-    displayAlert("entry has been deleted","dark")
+    displayAlert("entry has been deleted","danger")
     // reset to default
     resetToDefault();  
 }
@@ -209,12 +209,12 @@ function editEntry(e){
 // clear all expense entries function
 function clearAllExpenseEntries(){
     // tableBody.replaceChildren('');
-    // select all elements with row class
-    const elements = document.querySelectorAll(".tableRow");
+    // select all elements with table-row class
+    const elements = document.querySelectorAll(".table-row");
     //remove the row if there is any 
     if(elements.length > 0){
         elements.forEach(row=>{
-            row.remove
+            row.remove();
         })
     }
     //display alert
