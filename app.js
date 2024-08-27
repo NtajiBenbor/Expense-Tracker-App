@@ -40,6 +40,8 @@ function addExpense(e){
     let itemValue = expenseDesc.value;
     let itemDate = date.value;
     let itemCost = amountSpent.value
+    const id = new Date().getTime();
+    
    
     //converting hrs to 12hrs format
     let NewDate = new Date();
@@ -51,10 +53,12 @@ function addExpense(e){
     let hrs = getHoursIn12Format(NewDate);
     let mins = NewDate.getMinutes(); 
 
+    
     // Ensuring that hours and minutes are double-digit strings
     hrs = hrs < 10 ? `0${hrs}` : `${hrs}`;
     mins = mins < 10 ? `0${mins}` : `${mins}`;
 
+    let time = `${hrs}:${mins}`
 
     // checking conditions
     if(itemValue && itemDate && itemCost && !editFlag){
@@ -64,11 +68,11 @@ function addExpense(e){
             const tableRow = document.createElement('tr');
             tableRow.classList.add('table-row');
             //create id attribute
-            const id = NewDate.getTime()
             const attr = document.createAttribute('data-row-id');
             attr.value = id;
             tableRow.setAttributeNode(attr);
         
+             
             //assign entry value to the table row 
             tableRow.innerHTML = `<th scope="row">${itemValue}</th>
             <td>${itemDate}</td>
@@ -114,6 +118,9 @@ function addExpense(e){
         }
         // reset to default
             resetToDefault();
+        // add to local storage
+        addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
+
     }else if(itemValue && itemCost && editFlag){
         // update values of edited entry 
         editedValue.textContent = expenseDesc.value;
@@ -170,6 +177,8 @@ function deleteEntry(e){
         for(let i=0; i<4; i++){
             currEntry = currEntry.parentElement;
         }
+    //delete id
+    let id = currEntry.dataset.rowId
     // remove entry 
         currEntry.remove();
     // remove clear button
@@ -178,8 +187,12 @@ function deleteEntry(e){
     }
     // display alert
     displayAlert("entry has been deleted","danger")
+
+    // delete from local storage
+    deleteItemInLocalStorage(id)
     // reset to default
     resetToDefault();  
+    // console.log(currEntry.dataset.rowId)
 }
 
 
@@ -231,6 +244,9 @@ function clearAllExpenseEntries(){
     if(tableBody.childElementCount === 0){
         clearBtn.classList.remove('show-btn');
     }
+
+    //clear local storage
+    localStorage.clear()
     // reset to default
     resetToDefault();
 }
@@ -248,4 +264,46 @@ function dateValidation(){
         displayAlert('can not set a future date for entries','warning');
         resetToDefault();
     }
+}
+
+
+
+// ********** LOCAL STORAGE ***********
+// add to local storage
+function addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time){
+    // create and entry object for each entry
+    const entry = {
+        id:id,
+        itemValue:itemValue,
+        itemDate:itemDate,
+        itemCost:itemCost,
+        time:time
+    }
+    // using a tenary operator, dyanamically set the values of the entries key in local storage
+        //*if local storage contains entries key, parse the values inside it it and then asign it as the value of entryArry
+        //* if it doesnt then set the value of entryArray to and empty array
+    const entryArray = localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
+    // update the value of array with the newly created entry object
+    entryArray.push(entry);
+    // replace the previous array with the updated array,
+    localStorage.setItem("entries",JSON.stringify(entryArray));
+}
+
+// Remove from local storage
+function deleteItemInLocalStorage(id){
+    // localStorage.removeItem
+
+    const entries = JSON.parse(localStorage.getItem("entries"));
+
+    const entry = entries.filter(item=>{
+        if(item.id === id){
+            console.log(item);
+            return item;
+                
+        }
+    })
+
+    // console.log(entries);
+    
+
 }
