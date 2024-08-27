@@ -14,7 +14,6 @@ const placeHolderRow = document.getElementById("placeholder-row");
 let editFlag = false;
 let editID;
 let editedValue = "";
-let editedDate = "";
 let editedCost = "" ;
 
 
@@ -23,10 +22,10 @@ let editedCost = "" ;
 form.addEventListener("submit", addExpense);
 
 // ensure date is not set in the future 
-date.addEventListener('change',dateValidation)
+date.addEventListener('change',dateValidation);
 
 // clear expense button
-clearBtn.addEventListener("click", clearAllExpenseEntries)
+clearBtn.addEventListener("click", clearAllExpenseEntries);
 
 
 
@@ -81,6 +80,7 @@ function addExpense(e){
                     <button type="button" class="btn btns btn-sm  del-btn">
                         <i class="fa-solid fa-trash-can del-icon"></i>
                     </button>
+                    <!-- edit entry btn -->
                     <button type="button" class=" btn btns btn-sm  edit-btn">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
@@ -114,19 +114,16 @@ function addExpense(e){
         }
         // reset to default
             resetToDefault();
-    }else if(itemValue && itemDate && itemCost && editFlag){
-        // editEntry()
+    }else if(itemValue && itemCost && editFlag){
+        // update values of edited entry 
         editedValue.textContent = expenseDesc.value;
-        // editedDate.textContent = date.value;
         editedCost.textContent = amountSpent.value;
 
         //display alert
-        displayAlert("entry has been modified","waring");
+        displayAlert("entry has been modified","success");
 
         //reset to default
         resetToDefault();
-
-        
     }
     else{
         displayAlert('invalid entry! can not submit empty fields','danger');
@@ -145,10 +142,11 @@ function resetToDefault(){
     date.value ="";
     amountSpent.value ="";
     // update submit button
-    addItemBtn.classList.remove("btn-primary")
+    addItemBtn.classList.remove("btn-primary");
     addItemBtn.classList.add("btn-success");
     addItemBtn.textContent="Add Item";
-    
+    //enable date input field
+    date.removeAttribute("disabled");
 }
 
 
@@ -187,7 +185,6 @@ function deleteEntry(e){
 
 //edit entry function
 function editEntry(e){
-    console.log('editing entry');
     // change edit flag
     editFlag = true;
     // get edit id
@@ -199,10 +196,21 @@ function editEntry(e){
     addItemBtn.classList.remove("btn-success")
     addItemBtn.classList.add("btn-primary");
     addItemBtn.textContent="edit entry";
+    
+    // get expenseDesc value
+    editedValue = e.currentTarget.parentElement.parentElement.
+    previousElementSibling.previousElementSibling.
+    previousElementSibling.previousElementSibling;
 
+    // get amountSpent value
+    editedCost= e.currentTarget.parentElement.parentElement.
+    previousElementSibling.previousElementSibling;
+    
+    // update entry values
     expenseDesc.value = editedValue.textContent;
-    // date.value = new Date(editedDate.textContent);
     amountSpent.value = editedCost.textContent; 
+    //disable date input field
+    date.setAttribute('disabled',true);
 }
 
 

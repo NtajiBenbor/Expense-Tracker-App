@@ -4,9 +4,6 @@
 */
 /* === variables===== */
 
-:root{
-
-}
 
 /* =====css reset === */
 *,
@@ -110,10 +107,6 @@ tr .table-title{
 
 
 /* ==== layout styles ==== */
-.senter{
-	/* border: 5px solid red; */
-	/* height: 500px; */
-}
 
 .section-center{
 	margin-top: 2em 
