@@ -67,7 +67,7 @@ function addExpense(e){
     if(itemValue && itemDate && itemCost && !editFlag){
 
         // setting up and appending new entries to the table
-        setupItems(NewDate,id,itemValue,itemDate,itemCost,hrs,mins);
+        setupItems(id,itemValue,itemDate,itemCost,time);
         
         // DOM variable assignment Delete and Edit buttons
         const delBtn = document.querySelectorAll('.del-btn');
@@ -249,12 +249,13 @@ function loadDOMContent(){
         entries.forEach(entry=>{
             setupItems(entry.id,entry.itemValue,entry.itemDate,entry.itemCost,entry.time);
          })
+         clearBtn.classList.add('show-btn');
     }
    }
 
 
 // setting up and appending new entries to the table
-function setupItems(NewDate,id,itemValue,itemDate,itemCost,time){
+function setupItems(id,itemValue,itemDate,itemCost,time){
                 // remove placeholder row
                 placeHolderRow.remove();
                 // creating table elements
@@ -288,7 +289,7 @@ function setupItems(NewDate,id,itemValue,itemDate,itemCost,time){
         // adding PM or AM
         const timeSuffix = document.querySelectorAll('.suffix');
         timeSuffix.forEach(suffix=>{
-           suffix.textContent = new Date(NewDate).getHours() > 12 ? 'PM':'AM';
+           suffix.textContent = new Date().getHours() > 12 ? 'PM':'AM';
         })
 }
 

@@ -87,6 +87,12 @@ table{
 	/* border: 2px solid red; */
 }
 
+/* .table-body{
+	max-height: 100px;
+	overflow-y: scroll;
+	border: 2px solid red;
+} */
+
 tr .table-title{
 	font-weight: 600;
 	padding: 1em;
@@ -95,6 +101,8 @@ tr .table-title{
 #placeholder-row{
 	font-family: inherit;
 }
+
+
 
 #placeholder-row .placeholder-txt{
 	color: grey;
