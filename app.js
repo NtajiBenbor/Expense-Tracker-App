@@ -25,7 +25,10 @@ form.addEventListener("submit", addExpense);
 date.addEventListener('change',dateValidation);
 
 // clear expense button
-clearBtn.addEventListener("click", clearAllExpenseEntries);
+clearBtn.addEventListener('click', clearAllExpenseEntries);
+
+//load DOM content
+window.addEventListener('DOMContentLoaded', loadDOMContent)
 
 
 
@@ -39,7 +42,7 @@ function addExpense(e){
     //get form input values
     let itemValue = expenseDesc.value;
     let itemDate = date.value;
-    let itemCost = amountSpent.value
+    let itemCost = amountSpent.value;
     const id = new Date().getTime().toString();
     
    
@@ -62,43 +65,11 @@ function addExpense(e){
 
     // checking conditions
     if(itemValue && itemDate && itemCost && !editFlag){
-            // remove placeholder row
-            placeHolderRow.remove();
-            // creating table elements
-            const tableRow = document.createElement('tr');
-            tableRow.classList.add('table-row');
-            //create id attribute
-            const attr = document.createAttribute('data-row-id');
-            attr.value = id;
-            tableRow.setAttributeNode(attr);
+
+        // setting up and appending new entries to the table
+        setupItems(NewDate,id,itemValue,itemDate,itemCost,hrs,mins);
         
-             
-            //assign entry value to the table row 
-            tableRow.innerHTML = `<th scope="row">${itemValue}</th>
-            <td>${itemDate}</td>
-            <td>NGN ${itemCost}</td>
-            <td>${hrs}:${mins} <span class="suffix"></span></td>
-            <td>
-                 <span>
-                <!-- delete entry btn -->
-                    <button type="button" class="btn btns btn-sm  del-btn">
-                        <i class="fa-solid fa-trash-can del-icon"></i>
-                    </button>
-                    <!-- edit entry btn -->
-                    <button type="button" class=" btn btns btn-sm  edit-btn">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                </span>
-            </td>`;
-        // append new row to table
-        tableBody.appendChild(tableRow);
-         // adding PM or AM
-         const timeSuffix = document.querySelectorAll('.suffix')
-        //  console.log(timeSuffix);
-         timeSuffix.forEach(suffix=>{
-            suffix.textContent = NewDate.getHours() > 12 ? 'PM':'AM';
-         })
-        // DOM variable assignment Delete and edit buttons
+        // DOM variable assignment Delete and Edit buttons
         const delBtn = document.querySelectorAll('.del-btn');
         const editBtn = document.querySelectorAll('.edit-btn');
         //delete expense
@@ -270,8 +241,62 @@ function dateValidation(){
 }
 
 
+// ***** SETUP FUNCTION**********
+// setup items from localstorage when DOMContent is Loaded
+function loadDOMContent(){
+    let entries = getLocalStorageItems();
+    if(entries.length>0){
+        entries.forEach(entry=>{
+            setupItems(entry.id,entry.itemValue,entry.itemDate,entry.itemCost,entry.time);
+         })
+    }
+   }
+
+
+// setting up and appending new entries to the table
+function setupItems(NewDate,id,itemValue,itemDate,itemCost,time){
+                // remove placeholder row
+                placeHolderRow.remove();
+                // creating table elements
+                const tableRow = document.createElement('tr');
+                tableRow.classList.add('table-row');
+                //create id attribute
+                const attr = document.createAttribute('data-row-id');
+                attr.value = id;
+                tableRow.setAttributeNode(attr);
+            
+                 
+                //assign entry value to the table row 
+                tableRow.innerHTML = `<th scope="row">${itemValue}</th>
+                <td>${itemDate}</td>
+                <td>NGN ${itemCost}</td>
+                <td>${time} <span class="suffix"></span></td>
+                <td>
+                     <span>
+                    <!-- delete entry btn -->
+                        <button type="button" class="btn btns btn-sm  del-btn">
+                            <i class="fa-solid fa-trash-can del-icon"></i>
+                        </button>
+                        <!-- edit entry btn -->
+                        <button type="button" class=" btn btns btn-sm  edit-btn">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </span>
+                </td>`;
+        // append new row to table
+        tableBody.appendChild(tableRow);
+        // adding PM or AM
+        const timeSuffix = document.querySelectorAll('.suffix');
+        timeSuffix.forEach(suffix=>{
+           suffix.textContent = new Date(NewDate).getHours() > 12 ? 'PM':'AM';
+        })
+}
+
+
+
 
 // ********** LOCAL STORAGE ***********
+
 // add to local storage
 function addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time){
     // create and entry object for each entry
