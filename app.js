@@ -40,7 +40,7 @@ function addExpense(e){
     let itemValue = expenseDesc.value;
     let itemDate = date.value;
     let itemCost = amountSpent.value
-    const id = new Date().getTime();
+    const id = new Date().getTime().toString();
     
    
     //converting hrs to 12hrs format
@@ -109,17 +109,18 @@ function addExpense(e){
         editBtn.forEach(btn=>{
             btn.addEventListener("click",editEntry);
         })
-        // editBtn.addEventListener("click",editEntry);
+        
         //display alert
         displayAlert('expense added to the list','success');
         // show clear items btn
         if(tableBody.childElementCount > 0){
             clearBtn.classList.add('show-btn');
         }
+          // add to local storage
+          addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
         // reset to default
             resetToDefault();
-        // add to local storage
-        addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
+      
 
     }else if(itemValue && itemCost && editFlag){
         // update values of edited entry 
@@ -128,7 +129,8 @@ function addExpense(e){
 
         //display alert
         displayAlert("entry has been modified","success");
-
+        //edit localstorage
+         editItemInLocalStorage(editID,itemValue,itemCost,time);
         //reset to default
         resetToDefault();
     }
@@ -178,7 +180,7 @@ function deleteEntry(e){
             currEntry = currEntry.parentElement;
         }
     //delete id
-    let id = currEntry.dataset.rowId
+    let id = currEntry.dataset.rowId;
     // remove entry 
         currEntry.remove();
     // remove clear button
@@ -205,6 +207,7 @@ function editEntry(e){
     for(let i=0; i<4; i++){
         editID = editID.parentElement;
     }
+    editID = editID.dataset.rowId
     // update submit button
     addItemBtn.classList.remove("btn-success")
     addItemBtn.classList.add("btn-primary");
@@ -279,10 +282,8 @@ function addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time){
         itemCost:itemCost,
         time:time
     }
-    // using a tenary operator, dyanamically set the values of the entries key in local storage
-        //*if local storage contains entries key, parse the values inside it it and then asign it as the value of entryArry
-        //* if it doesnt then set the value of entryArray to and empty array
-    const entryArray = localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
+     // get entries from local storage
+    const entryArray = getLocalStorageItems();
     // update the value of array with the newly created entry object
     entryArray.push(entry);
     // replace the previous array with the updated array,
@@ -291,19 +292,51 @@ function addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time){
 
 // Remove from local storage
 function deleteItemInLocalStorage(id){
-    // localStorage.removeItem
-
-    const entries = JSON.parse(localStorage.getItem("entries"));
-
-    const entry = entries.filter(item=>{
-        if(item.id === id){
-            console.log(item);
-            return item;
-                
+    // get entries from local storage
+    let entries = getLocalStorageItems();
+    //filter entries by id
+    entries = entries.filter(item=>{
+        if(item.id !== id){
+            return item;       
         }
     })
+    // replace the values of the entries array with the returned array in localStorage
+    localStorage.setItem("entries",JSON.stringify(entries));
+}
 
-    // console.log(entries);
-    
+// edit from local storage
+function editItemInLocalStorage(editID,itemValue,itemCost,time){
+    // get entries from local storage
+    let entries = getLocalStorageItems()
+    // using the map method modify the item in the entries array that matches the editID 
+    entries = entries.map(item=>{
+        if(item.id === editID){
+            // return the modified object to the array
+           return {
+            // using the spread operator to ensure that other properties in the object remain unchanged 
+            ...item,
+            // update the key values with the arguement passed into the function
+            itemValue:itemValue,
+            // itemDate:itemDate,
+            itemCost:itemCost,
+            time:time
+           }
+           
+        }
+        // return the modified array item to the array
+        return item
+    })
 
+    // replace the values of the entries array with the modified array in localStorage
+    localStorage.setItem("entries",JSON.stringify(entries));
+}
+
+
+// getitem function
+
+function getLocalStorageItems(){
+    // using a tenary operator, dyanamically set the values of the entries key in local storage
+        //*if local storage contains entries key, parse the values inside it it and then asign it as the value of entryArry
+        //* if it doesnt then set the value of entryArray to and empty array
+    return  localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
 }
