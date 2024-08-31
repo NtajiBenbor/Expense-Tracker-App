@@ -29,6 +29,12 @@ date.addEventListener('change',dateValidation);
 // clear expense button
 clearBtn.addEventListener('click', clearAllExpenseEntries);
 
+//genrate place holder row
+window.addEventListener('DOMContentLoaded',()=>{
+    let row = generatePlaceHolderRole()
+    tableBody.appendChild(row)
+});
+
 //load DOM content
 window.addEventListener('DOMContentLoaded', loadDOMContent)
 
@@ -218,13 +224,16 @@ function clearAllExpenseEntries(){
     }
     //display alert
     displayAlert("all entries have been cleared", "warning");
-    //show placeholder row
-    placeHolderRow.classList.remove('hide-placeholder');
+    //generate place holder row
+    let row = generatePlaceHolderRole();
     // update total
-    totalSpent.textContent = `NGN ${0.00}`
+    totalSpent.textContent = `NGN 0.00`;
+    prices.length=0;
     //hide the clear button
-    if(tableBody.childElementCount === 0){
+    if(tableBody.childElementCount === 0 ){
         clearBtn.classList.remove('show-btn');
+        //show placeholder row
+        tableBody.appendChild(row)
     }
 
     //clear local storage
@@ -257,6 +266,24 @@ function getTotal(itemCost){
         return sum + price;
     })
     totalSpent.textContent = `NGN ${total.toLocaleString()}`;
+}
+
+// generate placeholder Row
+function generatePlaceHolderRole(){
+    const placeHolderRow = document.createElement('tr')
+    placeHolderRow.setAttribute('id','placeholder-row')
+    placeHolderRow.classList.add('table-row','p-rows');
+    placeHolderRow.innerHTML = `
+    <!-- placeholder row -->
+    <tr class="table-row" id="placeholder-row">
+        <th scope="row" class="placeholder-txt" >No expenses added yet!</th>
+        <td></td>
+        <td></td>
+        <td colspan="1"></td>
+        <td></td>
+    </tr>
+    `;
+    return placeHolderRow
 }
 
 
@@ -354,7 +381,9 @@ function loadDOMContent(){
 // setting up and appending new entries to the table
 function setupItems(id,itemValue,itemDate,itemCost,time){
                 // remove placeholder row
-                placeHolderRow.classList.add('hide-placeholder');
+                const pRows=document.querySelectorAll('.p-rows');
+                pRows.forEach(row=>{row.remove()});
+                // placeHolderRow.classList.add('hide-placeholder');
                 // creating table elements
                 const tableRow = document.createElement('tr');
                 tableRow.classList.add('table-row');
