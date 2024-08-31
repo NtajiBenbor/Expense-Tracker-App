@@ -173,6 +173,10 @@ tr .table-title{
 	display: none;
 }
 
+.total{
+	margin-left: 50px;
+}
+
 
 
 /* alert */
@@ -214,4 +218,8 @@ tr .table-title{
 
 .show-btn{
 	display: block;
+}
+
+.hide-placeholder{
+	display: none;
 }

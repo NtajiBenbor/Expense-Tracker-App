@@ -9,12 +9,14 @@ const alert = document.querySelector('.alert');
 const clearBtn = document.querySelector('.clear-btn');
 const addItemBtn = document.querySelector('.add-item-btn');
 const placeHolderRow = document.getElementById("placeholder-row");
+const totalSpent = document.querySelector(".total");
 
 // Other variables
 let editFlag = false;
 let editID;
 let editedValue = "";
 let editedCost = "" ;
+const prices = [];
 
 
 /****** EVENT LISTNERS *****/
@@ -87,6 +89,8 @@ function addExpense(e){
         if(tableBody.childElementCount > 0){
             clearBtn.classList.add('show-btn');
         }
+        //update total
+        getTotal(itemCost)
           // add to local storage
           addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
         // reset to default
@@ -214,6 +218,10 @@ function clearAllExpenseEntries(){
     }
     //display alert
     displayAlert("all entries have been cleared", "warning");
+    //show placeholder row
+    placeHolderRow.classList.remove('hide-placeholder');
+    // update total
+    totalSpent.textContent = `NGN ${0.00}`
     //hide the clear button
     if(tableBody.childElementCount === 0){
         clearBtn.classList.remove('show-btn');
@@ -240,58 +248,17 @@ function dateValidation(){
     }
 }
 
+// calculate expense total function
 
-// ***** SETUP FUNCTION**********
-// setup items from localstorage when DOMContent is Loaded
-function loadDOMContent(){
-    let entries = getLocalStorageItems();
-    if(entries.length>0){
-        entries.forEach(entry=>{
-            setupItems(entry.id,entry.itemValue,entry.itemDate,entry.itemCost,entry.time);
-         })
-         clearBtn.classList.add('show-btn');
-    }
-   }
+function getTotal(itemCost){
+    prices.push(Number(itemCost.replace(/,/g, '')))
 
-
-// setting up and appending new entries to the table
-function setupItems(id,itemValue,itemDate,itemCost,time){
-                // remove placeholder row
-                placeHolderRow.remove();
-                // creating table elements
-                const tableRow = document.createElement('tr');
-                tableRow.classList.add('table-row');
-                //create id attribute
-                const attr = document.createAttribute('data-row-id');
-                attr.value = id;
-                tableRow.setAttributeNode(attr);
-            
-                 
-                //assign entry value to the table row 
-                tableRow.innerHTML = `<th scope="row">${itemValue}</th>
-                <td>${itemDate}</td>
-                <td>NGN ${itemCost}</td>
-                <td>${time} <span class="suffix"></span></td>
-                <td>
-                     <span>
-                    <!-- delete entry btn -->
-                        <button type="button" class="btn btns btn-sm  del-btn">
-                            <i class="fa-solid fa-trash-can del-icon"></i>
-                        </button>
-                        <!-- edit entry btn -->
-                        <button type="button" class=" btn btns btn-sm  edit-btn">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                    </span>
-                </td>`;
-        // append new row to table
-        tableBody.appendChild(tableRow);
-        // adding PM or AM
-        const timeSuffix = document.querySelectorAll('.suffix');
-        timeSuffix.forEach(suffix=>{
-           suffix.textContent = new Date().getHours() > 12 ? 'PM':'AM';
-        })
+    let total = prices.reduce((sum,price)=>{
+        return sum + price;
+    })
+    totalSpent.textContent = `NGN ${total.toLocaleString()}`;
 }
+
 
 
 
@@ -343,7 +310,6 @@ function editItemInLocalStorage(editID,itemValue,itemCost,time){
             ...item,
             // update the key values with the arguement passed into the function
             itemValue:itemValue,
-            // itemDate:itemDate,
             itemCost:itemCost,
             time:time
            }
@@ -365,4 +331,61 @@ function getLocalStorageItems(){
         //*if local storage contains entries key, parse the values inside it it and then asign it as the value of entryArry
         //* if it doesnt then set the value of entryArray to and empty array
     return  localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
+}
+
+// ***** SETUP FUNCTION**********
+// setup items from localstorage when DOMContent is Loaded
+function loadDOMContent(){
+    // get entries from local storage
+    let entries = getLocalStorageItems();
+    // check if there are any entries in the local storage
+    if(entries.length>0){
+        // if there are entries the iterate over the array of object 
+        entries.forEach(entry=>{
+            //append each entry object to the table.
+            setupItems(entry.id,entry.itemValue,entry.itemDate,entry.itemCost,entry.time);
+         })
+        // show the clear list button if enries exist.
+         clearBtn.classList.add('show-btn');
+    }
+   }
+
+
+// setting up and appending new entries to the table
+function setupItems(id,itemValue,itemDate,itemCost,time){
+                // remove placeholder row
+                placeHolderRow.classList.add('hide-placeholder');
+                // creating table elements
+                const tableRow = document.createElement('tr');
+                tableRow.classList.add('table-row');
+                //create id attribute
+                const attr = document.createAttribute('data-row-id');
+                attr.value = id;
+                tableRow.setAttributeNode(attr);
+            
+                 
+                //assign entry value to the table row 
+                tableRow.innerHTML = `<th scope="row">${itemValue}</th>
+                <td>${itemDate}</td>
+                <td>NGN ${itemCost}</td>
+                <td>${time} <span class="suffix"></span></td>
+                <td>
+                     <span>
+                    <!-- delete entry btn -->
+                        <button type="button" class="btn btns btn-sm  del-btn">
+                            <i class="fa-solid fa-trash-can del-icon"></i>
+                        </button>
+                        <!-- edit entry btn -->
+                        <button type="button" class=" btn btns btn-sm  edit-btn">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </span>
+                </td>`;
+        // append new row to table
+        tableBody.appendChild(tableRow);
+        // adding PM or AM
+        const timeSuffix = document.querySelectorAll('.suffix');
+        timeSuffix.forEach(suffix=>{
+           suffix.textContent = new Date().getHours() > 12 ? 'PM':'AM';
+        })
 }
