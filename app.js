@@ -16,7 +16,7 @@ let editFlag = false;
 let editID;
 let editedValue = "";
 let editedCost = "" ;
-const prices = [];
+let prices = [];
 
 
 /****** EVENT LISTNERS *****/
@@ -96,7 +96,8 @@ function addExpense(e){
             clearBtn.classList.add('show-btn');
         }
         //update total
-        getTotal(itemCost)
+        prices.push(Number(itemCost.replace(/,/g, '')))
+        getTotal()
           // add to local storage
           addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
         // reset to default
@@ -162,11 +163,34 @@ function deleteEntry(e){
         }
     //delete id
     let id = currEntry.dataset.rowId;
+    // get item price
+        let item =  e.currentTarget.parentElement.parentElement.
+        previousElementSibling.previousElementSibling;
+        item = item.textContent.slice(3);
+        item = Number(item.replace(/,/g,""));
+          // update total after entry is deleted
+          const updatedPrices = prices.filter(price=>{
+            if(price !== item){
+                return price;
+            }
+        })
+        prices = updatedPrices;
+        getTotal()
     // remove entry 
         currEntry.remove();
+        // console.log(item);
+    
+  
     // remove clear button
     if(tableBody.childElementCount === 0){
         clearBtn.classList.remove('show-btn');
+        // update total
+        totalSpent.textContent = `NGN 0.00`;
+        prices.length=0;
+        //generate place holder row
+        let row = generatePlaceHolderRole();
+        //show placeholder row
+        tableBody.appendChild(row)
     }
     // display alert
     displayAlert("entry has been deleted","danger")
@@ -257,14 +281,17 @@ function dateValidation(){
     }
 }
 
-// calculate expense total function
-
-function getTotal(itemCost){
-    prices.push(Number(itemCost.replace(/,/g, '')))
-
-    let total = prices.reduce((sum,price)=>{
-        return sum + price;
-    })
+// calculate expenses total function
+function getTotal(){
+    // dynamically asign the value based on the content of the prices array
+    let total = prices.length > 0? prices[0]:0.00;
+    // reduce the prices array if its content are greater than one
+    if(prices.length > 1){
+        total = prices.reduce((sum,price)=>{
+            return sum + price;
+        })
+    }
+    // update the value of total on the page
     totalSpent.textContent = `NGN ${total.toLocaleString()}`;
 }
 
