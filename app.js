@@ -80,7 +80,7 @@ function addExpense(e){
         setupItems(id,itemValue,itemDate,itemCost,time);
         
          //set up total in local storage
-         setTotalInLocalStorage(itemCost);
+         setTotalInLocalStorage(itemCost,id);
 
         
         //display alert
@@ -150,6 +150,7 @@ function displayAlert(text,action){
 
 // delete entry function
 function deleteEntry(e){
+    let element = e.currentTarget
     // transverse the DOM
     let currEntry = e.target;
         for(let i=0; i<4; i++){
@@ -158,21 +159,7 @@ function deleteEntry(e){
     //delete id
     let id = currEntry.dataset.rowId;
     // delete selected price from prices array
-    // get item price
-        let item =  e.currentTarget.parentElement.parentElement.
-        previousElementSibling.previousElementSibling;
-        item = item.textContent.slice(3);
-        //format from string to number
-        item = Number(item.replace(/,/g,""));
-          // get new array of prices after filtering  
-            pricesArray = pricesArray.filter(price=>{
-            if(price !== item ){
-                return price;
-            }
-        })
-        // update the value of the prices array with the results of the filter
-        // pricesArray = updatedPrices;
-        localStorage.setItem("total",JSON.stringify(pricesArray));
+    deletePriceInLocalStorage(element,id);
         // update total on the page
         getTotal()
    
@@ -286,13 +273,17 @@ function getTotal(){
     pricesArray = JSON.parse(localStorage.getItem("total"));
     // pricesArray = localStorage.getItem("total")? JSON.parse(localStorage.getItem("total")):[];
     // pricesArray.push(Number(itemValue.replace(/,/g, '')));
-    let total = pricesArray.length === 1? pricesArray[0]:`0.00`;
+    let total = pricesArray.length === 1? pricesArray[0].itemCost:`0.00`;
 
     // reduce the prices array if its content are greater than one
     if(pricesArray.length > 1){
-        total = pricesArray.reduce((sum,price)=>{
-            return sum + price;
-        })
+        let prices = pricesArray.map(item=> item.itemCost);
+        
+        // prices = prices.map(price=> Number(price));
+
+
+        total = prices.reduce((sum,item)=>sum + item);
+      
     }
     // update the value of total on the page
     totalSpent.textContent = `NGN ${total.toLocaleString()}`;
@@ -393,10 +384,35 @@ function getLocalStorageItems(){
 }
 
 //set total in local storage
-function setTotalInLocalStorage(itemCost){
-    pricesArray.push(Number(itemCost.replace(/,/g, '')));
+function setTotalInLocalStorage(itemCost,id){
+    let price = Number(itemCost.replace(/,/g, ''));
+    let entryPrices = {
+        itemCost:price,
+        id:id
+    }
+
+    pricesArray.push(entryPrices);
     localStorage.setItem("total",JSON.stringify(pricesArray));
 } 
+
+// delete price from local storage
+function deletePriceInLocalStorage(element,id){
+     // get item price
+     let item =  element.parentElement.parentElement.
+     previousElementSibling.previousElementSibling;
+     item = item.textContent.slice(3);
+     //format from string to number
+     item = Number(item.replace(/,/g,""));
+       // get new array of prices after filtering  
+         pricesArray = pricesArray.filter(entry=>{
+         if( entry.itemCost !== item && entry.id !== id){
+             return entry;
+         }
+     })
+     // update the value of the prices array with the results of the filter
+     // pricesArray = updatedPrices;
+     localStorage.setItem("total",JSON.stringify(pricesArray));
+}
 
 
 
