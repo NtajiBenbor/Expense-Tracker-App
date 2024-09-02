@@ -16,7 +16,8 @@ let editFlag = false;
 let editID;
 let editedValue = "";
 let editedCost = "" ;
-let prices = [];
+let pricesArray=[];
+// let cost="";
 
 
 /****** EVENT LISTNERS *****/
@@ -31,7 +32,7 @@ clearBtn.addEventListener('click', clearAllExpenseEntries);
 
 //genrate place holder row
 window.addEventListener('DOMContentLoaded',()=>{
-    let row = generatePlaceHolderRole()
+    let row = generatePlaceHolderRow()
     tableBody.appendChild(row)
 });
 
@@ -51,6 +52,7 @@ function addExpense(e){
     let itemValue = expenseDesc.value;
     let itemDate = date.value;
     let itemCost = amountSpent.value;
+    // cost = itemCost;
     const id = new Date().getTime().toString();
     
    
@@ -77,17 +79,9 @@ function addExpense(e){
         // setting up and appending new entries to the table
         setupItems(id,itemValue,itemDate,itemCost,time);
         
-        // DOM variable assignment Delete and Edit buttons
-        const delBtn = document.querySelectorAll('.del-btn');
-        const editBtn = document.querySelectorAll('.edit-btn');
-        //delete expense
-        delBtn.forEach(btn=>{
-            btn.addEventListener("click",deleteEntry);
-        })
-        //edit expense
-        editBtn.forEach(btn=>{
-            btn.addEventListener("click",editEntry);
-        })
+         //set up total in local storage
+         setTotalInLocalStorage(itemCost);
+
         
         //display alert
         displayAlert('expense added to the list','success');
@@ -95,8 +89,8 @@ function addExpense(e){
         if(tableBody.childElementCount > 0){
             clearBtn.classList.add('show-btn');
         }
+       
         //update total
-        prices.push(Number(itemCost.replace(/,/g, '')))
         getTotal()
           // add to local storage
           addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
@@ -163,22 +157,27 @@ function deleteEntry(e){
         }
     //delete id
     let id = currEntry.dataset.rowId;
+    // delete selected price from prices array
     // get item price
         let item =  e.currentTarget.parentElement.parentElement.
         previousElementSibling.previousElementSibling;
         item = item.textContent.slice(3);
+        //format from string to number
         item = Number(item.replace(/,/g,""));
-          // update total after entry is deleted
-          const updatedPrices = prices.filter(price=>{
-            if(price !== item){
+          // get new array of prices after filtering  
+            pricesArray = pricesArray.filter(price=>{
+            if(price !== item ){
                 return price;
             }
         })
-        prices = updatedPrices;
+        // update the value of the prices array with the results of the filter
+        // pricesArray = updatedPrices;
+        localStorage.setItem("total",JSON.stringify(pricesArray));
+        // update total on the page
         getTotal()
-    // remove entry 
-        currEntry.remove();
-        // console.log(item);
+   
+    // delete selected entry 
+    currEntry.remove();
     
   
     // remove clear button
@@ -186,9 +185,9 @@ function deleteEntry(e){
         clearBtn.classList.remove('show-btn');
         // update total
         totalSpent.textContent = `NGN 0.00`;
-        prices.length=0;
+        pricesArray.length=0;
         //generate place holder row
-        let row = generatePlaceHolderRole();
+        let row = generatePlaceHolderRow();
         //show placeholder row
         tableBody.appendChild(row)
     }
@@ -249,10 +248,10 @@ function clearAllExpenseEntries(){
     //display alert
     displayAlert("all entries have been cleared", "warning");
     //generate place holder row
-    let row = generatePlaceHolderRole();
+    let row = generatePlaceHolderRow();
     // update total
     totalSpent.textContent = `NGN 0.00`;
-    prices.length=0;
+    pricesArray.length=0;
     //hide the clear button
     if(tableBody.childElementCount === 0 ){
         clearBtn.classList.remove('show-btn');
@@ -284,19 +283,24 @@ function dateValidation(){
 // calculate expenses total function
 function getTotal(){
     // dynamically asign the value based on the content of the prices array
-    let total = prices.length > 0? prices[0]:0.00;
+    pricesArray = JSON.parse(localStorage.getItem("total"));
+    // pricesArray = localStorage.getItem("total")? JSON.parse(localStorage.getItem("total")):[];
+    // pricesArray.push(Number(itemValue.replace(/,/g, '')));
+    let total = pricesArray.length === 1? pricesArray[0]:`0.00`;
+
     // reduce the prices array if its content are greater than one
-    if(prices.length > 1){
-        total = prices.reduce((sum,price)=>{
+    if(pricesArray.length > 1){
+        total = pricesArray.reduce((sum,price)=>{
             return sum + price;
         })
     }
     // update the value of total on the page
     totalSpent.textContent = `NGN ${total.toLocaleString()}`;
+    localStorage.setItem("total",JSON.stringify(pricesArray));
 }
 
 // generate placeholder Row
-function generatePlaceHolderRole(){
+function generatePlaceHolderRow(){
     const placeHolderRow = document.createElement('tr')
     placeHolderRow.setAttribute('id','placeholder-row')
     placeHolderRow.classList.add('table-row','p-rows');
@@ -312,6 +316,8 @@ function generatePlaceHolderRole(){
     `;
     return placeHolderRow
 }
+
+
 
 
 
@@ -379,13 +385,22 @@ function editItemInLocalStorage(editID,itemValue,itemCost,time){
 
 
 // getitem function
-
 function getLocalStorageItems(){
     // using a tenary operator, dyanamically set the values of the entries key in local storage
         //*if local storage contains entries key, parse the values inside it it and then asign it as the value of entryArry
         //* if it doesnt then set the value of entryArray to and empty array
     return  localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
 }
+
+//set total in local storage
+function setTotalInLocalStorage(itemCost){
+    pricesArray.push(Number(itemCost.replace(/,/g, '')));
+    localStorage.setItem("total",JSON.stringify(pricesArray));
+} 
+
+
+
+
 
 // ***** SETUP FUNCTION**********
 // setup items from localstorage when DOMContent is Loaded
@@ -394,14 +409,17 @@ function loadDOMContent(){
     let entries = getLocalStorageItems();
     // check if there are any entries in the local storage
     if(entries.length>0){
-        // if there are entries the iterate over the array of object 
+        // if there are entries the iterate over the array of objects 
         entries.forEach(entry=>{
             //append each entry object to the table.
             setupItems(entry.id,entry.itemValue,entry.itemDate,entry.itemCost,entry.time);
          })
-        // show the clear list button if enries exist.
+        // show the clear list button if entries exist.
          clearBtn.classList.add('show-btn');
-    }
+            //set up total         
+             getTotal()
+        }
+    
    }
 
 
@@ -443,5 +461,17 @@ function setupItems(id,itemValue,itemDate,itemCost,time){
         const timeSuffix = document.querySelectorAll('.suffix');
         timeSuffix.forEach(suffix=>{
            suffix.textContent = new Date().getHours() > 12 ? 'PM':'AM';
+        })
+         // DOM variable assignment Delete and Edit buttons
+         const delBtn = document.querySelectorAll('.del-btn');
+         const editBtn = document.querySelectorAll('.edit-btn');
+
+                 //delete expense
+        delBtn.forEach(btn=>{
+            btn.addEventListener("click",deleteEntry);
+        })
+        //edit expense
+        editBtn.forEach(btn=>{
+            btn.addEventListener("click",editEntry);
         })
 }
