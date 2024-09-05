@@ -10,6 +10,7 @@ const clearBtn = document.querySelector('.clear-btn');
 const addItemBtn = document.querySelector('.add-item-btn');
 const placeHolderRow = document.getElementById("placeholder-row");
 const totalSpent = document.querySelector(".total");
+const alertContainer = document.querySelector(".alerts-container");
 
 // Other variables
 let editFlag = false;
@@ -187,6 +188,8 @@ function deleteEntry(e){
 
 //edit entry function
 function editEntry(e){
+    //scroll to top when the edit button is clicked
+    scrollToTopWhenEditButtonClicked()
     // change edit flag
     editFlag = true;
     // get edit id
@@ -293,6 +296,18 @@ function generatePlaceHolderRow(){
     </tr>
     `;
     return placeHolderRow
+}
+
+//scroll to top when the edit button is clicked
+
+function scrollToTopWhenEditButtonClicked(){
+    let position = alertContainer.getBoundingClientRect().top
+    console.log(position);
+    window.scrollTo({
+        top:position,
+        left:0,
+        behavior: "smooth"
+    })
 }
 
 
@@ -484,7 +499,7 @@ function setupItems(id,itemValue,itemDate,itemCost,time){
                  
                 //assign entry value to the table row 
                 tableRow.innerHTML = `<th scope="row">${itemValue}</th>
-                <td>${itemDate}</td>
+                <td>${itemDate.split('-').reverse().join('-')}</td>
                 <td>NGN ${itemCost}</td>
                 <td>${time} <span class="suffix"></span></td>
                 <td>
