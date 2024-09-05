@@ -17,7 +17,6 @@ let editID;
 let editedValue = "";
 let editedCost = "" ;
 let pricesArray=[];
-// let cost="";
 
 
 /****** EVENT LISTNERS *****/
@@ -25,16 +24,13 @@ let pricesArray=[];
 form.addEventListener("submit", addExpense);
 
 // ensure date is not set in the future 
-date.addEventListener('change',dateValidation);
+date.addEventListener('change', dateValidation);
 
 // clear expense button
 clearBtn.addEventListener('click', clearAllExpenseEntries);
 
-//genrate place holder row
-window.addEventListener('DOMContentLoaded',()=>{
-    let row = generatePlaceHolderRow()
-    tableBody.appendChild(row)
-});
+//generate place holder row dynamically when the page is loaded
+window.addEventListener('DOMContentLoaded', loadPlaceHolderRow);
 
 //load DOM content
 window.addEventListener('DOMContentLoaded', loadDOMContent)
@@ -60,7 +56,7 @@ function addExpense(e){
     let NewDate = new Date();
     // Function to get the hour in 12-hour format
     let getHoursIn12Format = function(date) {
-        return date.getHours() % 12 || 12;
+        return date.getHours()% 12 || 12; 
     };
 
     let hrs = getHoursIn12Format(NewDate);
@@ -71,7 +67,7 @@ function addExpense(e){
     hrs = hrs < 10 ? `0${hrs}` : `${hrs}`;
     mins = mins < 10 ? `0${mins}` : `${mins}`;
 
-    let time = `${hrs}:${mins}`
+    let time = `${hrs}:${mins}`;
 
     // checking conditions
     if(itemValue && itemDate && itemCost && !editFlag){
@@ -92,8 +88,8 @@ function addExpense(e){
        
         //update total
         getTotal()
-          // add to local storage
-          addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
+        // add to local storage
+        addEntryToLocaleStorage(id,itemValue,itemDate,itemCost,time)
         // reset to default
             resetToDefault();
       
@@ -105,6 +101,10 @@ function addExpense(e){
 
         //display alert
         displayAlert("entry has been modified","success");
+        //edit the price array(total) in local storage
+        editPriceInLocalStorage(editID,itemCost);
+        //update total
+        getTotal();
         //edit localstorage
          editItemInLocalStorage(editID,itemValue,itemCost,time);
         //reset to default
@@ -153,20 +153,17 @@ function deleteEntry(e){
     let element = e.currentTarget
     // transverse the DOM
     let currEntry = e.target;
-        for(let i=0; i<4; i++){
-            currEntry = currEntry.parentElement;
-        }
+    for(let i=0; i<4; i++){
+        currEntry = currEntry.parentElement;
+    }
     //delete id
     let id = currEntry.dataset.rowId;
     // delete selected price from prices array
     deletePriceInLocalStorage(element,id);
-        // update total on the page
-        getTotal()
-   
+    // update total on the page
+    getTotal()
     // delete selected entry 
     currEntry.remove();
-    
-  
     // remove clear button
     if(tableBody.childElementCount === 0){
         clearBtn.classList.remove('show-btn');
@@ -179,8 +176,7 @@ function deleteEntry(e){
         tableBody.appendChild(row)
     }
     // display alert
-    displayAlert("entry has been deleted","danger")
-
+    displayAlert("entry has been deleted","danger");
     // delete from local storage
     deleteItemInLocalStorage(id)
     // reset to default
@@ -271,19 +267,10 @@ function dateValidation(){
 function getTotal(){
     // dynamically asign the value based on the content of the prices array
     pricesArray = JSON.parse(localStorage.getItem("total"));
-    // pricesArray = localStorage.getItem("total")? JSON.parse(localStorage.getItem("total")):[];
-    // pricesArray.push(Number(itemValue.replace(/,/g, '')));
     let total = pricesArray.length === 1? pricesArray[0].itemCost:`0.00`;
-
     // reduce the prices array if its content are greater than one
     if(pricesArray.length > 1){
-        let prices = pricesArray.map(item=> item.itemCost);
-        
-        // prices = prices.map(price=> Number(price));
-
-
-        total = prices.reduce((sum,item)=>sum + item);
-      
+         total = pricesArray.map(item=> item.itemCost).reduce((sum,item)=> sum+item);        
     }
     // update the value of total on the page
     totalSpent.textContent = `NGN ${total.toLocaleString()}`;
@@ -383,7 +370,18 @@ function getLocalStorageItems(){
     return  localStorage.getItem("entries")? JSON.parse(localStorage.getItem("entries")):[];
 }
 
-//set total in local storage
+//set total of prices  in local storage
+/**
+ * The function `setTotalInLocalStorage` stores an item's cost and ID in the local storage after
+ * converting the cost to a number.
+ * @param itemCost - The `itemCost` parameter in the `setTotalInLocalStorage` function represents the
+ * cost of an item. It seems like the cost is provided as a string with commas for thousands
+ * separators. The function first removes the commas and converts the cost to a number before storing
+ * it in the `entryPrices`
+ * @param id - The `id` parameter in the `setTotalInLocalStorage` function is used to identify the item
+ * for which the cost is being stored in the local storage. It helps in associating the item cost with
+ * a specific identifier, making it easier to retrieve and manage the data later on.
+ */
 function setTotalInLocalStorage(itemCost,id){
     let price = Number(itemCost.replace(/,/g, ''));
     let entryPrices = {
@@ -395,7 +393,7 @@ function setTotalInLocalStorage(itemCost,id){
     localStorage.setItem("total",JSON.stringify(pricesArray));
 } 
 
-// delete price from local storage
+// delete price from array of prices(total) in local storage
 function deletePriceInLocalStorage(element,id){
      // get item price
      let item =  element.parentElement.parentElement.
@@ -414,6 +412,33 @@ function deletePriceInLocalStorage(element,id){
      localStorage.setItem("total",JSON.stringify(pricesArray));
 }
 
+// edit total of prices in local storage
+/**
+ * The function `editPriceInLocalStorage` updates the item cost in a prices array stored in local
+ * storage based on the provided item ID and new cost.
+ * @param editID - The `editID` parameter is the unique identifier of the item whose price you want to
+ * edit in the local storage. It is used to identify the specific item in the local storage array that
+ * needs to be updated.
+ * @param itemCost - The `itemCost` parameter in the `editPriceInLocalStorage` function represents the
+ * cost of an item. It seems to be in a specific format where the cost starts from the 4th character of
+ * the string and may contain commas for thousands separators. The function extracts the numerical
+ * value from this format
+ */
+function editPriceInLocalStorage(editID,itemCost){
+     pricesArray = JSON.parse(localStorage.getItem("total"));
+    let newCost = Number(itemCost.slice(3).replace(/,/g,""));
+    pricesArray = pricesArray.map(entry=>{
+        if(entry.id === editID){
+            return{
+                ...entry,
+                itemCost:newCost
+            }
+        }
+        return entry
+    })
+
+    localStorage.setItem("total",JSON.stringify(pricesArray));
+}
 
 
 
@@ -437,8 +462,11 @@ function loadDOMContent(){
         }
     
    }
-
-
+// sets up place holder row dynamically based on the state of the application 
+ function loadPlaceHolderRow(){
+    let row = generatePlaceHolderRow()
+    tableBody.appendChild(row)
+}
 // setting up and appending new entries to the table
 function setupItems(id,itemValue,itemDate,itemCost,time){
                 // remove placeholder row

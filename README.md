@@ -1,68 +1,58 @@
-# A Website built with Bootstrap: "Owl-Vector"
+# Expense Tracker App
 
 ## Content :link:
 
 1. [Project Overview](#1-project-overview-😄)
 2. [Screenshots](#2-screenshots-📷)
 3. [Why I built this](#3-why-i-built-this-❓)
-4. [what I learned building this project.](#4-what-i-learned-while-building-this-project)
-5. [Tools and resources utilized](#6-tools-and-resources-utilized-🔧)
-6. [Author](#7-author-🖊️)
+4. [What I learned while building this project](#4-what-i-learned-while-building-this-project)
+5. [Tools and Resources Utilized](#5-tools-and-resources-utilized-🔧)
+6. [Author](#6-author-🖊️)
 
+## 1. Project Overview 😄
 
-## 1. Project Overview :smile:
-This project involves creating a responsive landing page for a fictional illustration company called Owl-Vector. The company sells illustrations and clip art intended for developers to incorporate into their products. The plan is to further develop this project using JavaScript in the future, aiming to transition it into an e-commerce platform. The goal is to improve user experience, enable smoother transactions, and create a more dynamic online space for digital art enthusiasts.
+This project is an **Expense Tracker App** designed to help users manage and track their expenses efficiently. The app allows users to add, edit, and delete expense entries while providing a real-time update on their total spending. Built with JavaScript, Bootstrap, and FontAwesome, the app ensures a responsive and user-friendly experience. Future enhancements could include integrating with an external database for persistent storage and implementing user authentication.
 
 ***
-check it out [here](https://owlvector.netlify.app/)
-***
 
-## 2. Screenshots :camera:
+## 2. Screenshots 📷
+
 ### Screenshot 1
-![Hero section](/imgs/screenshot-owlvector.netlify.app-1.png)
-*A screenshot of the Nav and Hero section*
-
+![Expense Tracker UI](/imgs/expense-tracker-ui.png)
+*A screenshot of the main user interface with several expense entries listed.*
 
 ### Screenshot 2
-![Product Cards](/imgs/screenshot-owlvector.netlify.app-3.png)
-*a screenshot of the mid-section*
+![Mobile View](/imgs/expense-tracker-mobile.png)
+*A screenshot demonstrating the app's responsive design on a mobile device.*
 
-### Screenshot 3
-![On mobile](/imgs/mobile-1.png)
+## 3. Why I built this ❓
 
-*a screenshot on a mobile device*
+I built this project to solidify my understanding of JavaScript and Bootstrap, particularly in creating dynamic, interactive web applications. It was an opportunity to work on DOM manipulation, event handling, and local storage, enhancing my problem-solving skills and learning new techniques for managing state within the browser.
 
-## 3. Why I built this :hammer:
-I undertook this project as a personal challenge to assess my grasp of the Bootstrap CSS framework learned from Colt Steele's Udemy course. It was a venture I wanted to tackle independently, devoid of any guidance, where problem-solving was entirely on my shoulders. Admittedly, I hit some roadblocks, but I persisted, overcoming challenges and successfully bringing the project to fruition.
+## 4. What I learned while building this project
 
+- **DOM Manipulation:** I gained deeper insight into dynamically updating the DOM based on user interactions, such as adding and removing rows in a table.
 
-## 4. what I learned building this project.
-- The use of CSS frameworks like this significantly streamlines the process of writing custom CSS, saving considerable time and effort.
+- **Event Handling:** This project provided extensive practice with handling various user events like form submissions, button clicks, and date validations.
 
-- **Utilizing Bootstrap's component classes:** I became quite adept at employing Bootstrap's component class system to effortlessly translate intricate designs.
+- **Local Storage:** I learned how to utilize the browser's local storage for persisting data, allowing the app to maintain state across page reloads.
 
-- **Mastering Bootstrap's Grid system:** Discovering a tool that effortlessly enables users to address responsiveness through its column and row classes forming the grid system was a revelation. This allowed me to craft a website that appeared appealing on various screen sizes.
+- **Bootstrap Integration:** Using Bootstrap's grid system and components, I created a responsive layout that adapts to different screen sizes effortlessly.
 
-- **Creating seamless, responsive navbars:** Crafting navigation bars with CSS has never been this straightforward. I successfully designed an aesthetically pleasing, responsive navbar using just a few classes.
+- **JavaScript Best Practices:** Working with modular functions and maintaining clean, readable code was a key focus throughout this project.
 
-- **Mastering documentation navigation:** A valuable lesson Bootstrap imparts, particularly for novice web developers, is the cultivation of a culture of diligently reading through documentation. Over time, it teaches you how to effectively reference the documentation to locate the information you need.
+## 5. Tools and Resources Utilized 🔧
 
-- **Efficiency with Utility classes:** Utility classes prove to be time-saving superheroes, enabling us to make minor adjustments to our elements without resorting to verbose and sometimes unnecessary CSS code.
+- **HTML5**
+- **CSS3**
+- **JavaScript (ES6+)**
+- **Bootstrap v5.0** [getbootstrap.com](https://getbootstrap.com/docs/5.0/getting-started/introduction/):link:
+- **FontAwesome Icons** [fontawesome.com](https://fontawesome.com/):link:
+- **Visual Studio Code** [code.visualstudio.com](https://code.visualstudio.com/):link:
 
+## 6. Author 🖊️
 
-## 5. Tools and resources utilized :wrench:
-The following tools and resources where utilized in building this project.
-- HTML5
-- CSS3
-- Bootstrap v4.6 [getbootstrap.com](https://getbootstrap.com/docs/4.6/getting-started/introduction/):link:
-- Illustrations from [storyset.com](https://storyset.com/) :link:
-- Color pallet from [coolors.co](https://coolors.co) :link:
-- Icons from [icons8.con](https://icons8.com/) :link:
-- Resources from [freecodecamp.org](https://www.freecodecamp.org) :link:
+Hi, I'm Benedict, an aspiring front-end developer. I enjoy working on projects that challenge my skills and contribute to my growth as a developer. If you'd like to see more of my work or connect with me, check out my blog and follow me on Twitter.
 
-## Author :pen:
-Hi I'm Benedict, I'm learning to become a frontend developer. check out my blog where I'll be sharing my learning experiences, projects, and tips. 
-- Checkout it [here](https://benneythedev.hashnode.dev/) :link: 
-
-You can also connect with me on twitter
-- [Follow me](https://www.twitter.com/CodewithNtaji) :link: 
+- Blog: [benneythedev.hashnode.dev](https://benneythedev.hashnode.dev/):link:
+- Twitter: [@CodewithNtaji](https://www.twitter.com/CodewithNtaji):link:
