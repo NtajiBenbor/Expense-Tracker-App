@@ -4,15 +4,15 @@
 
 1. [Project Overview](#1-project-overview-😄)
 2. [Screenshots](#2-screenshots-📷)
-3. [Why I built this](#3-why-i-built-this-❓)
-4. [What I learned while building this project](#4-what-i-learned-while-building-this-project)
-5. [Challenges](#5-Challenges)
+3. [Why I Built This](#3-why-i-built-this-❓)
+4. [What I Learned While Building This Project](#4-what-i-learned-while-building-this-project)
+5. [Challenges](#5-challenges)
 6. [Tools and Resources Utilized](#6-tools-and-resources-utilized-🔧)
 7. [Author](#7-author-🖊️)
 
 ## 1. Project Overview 😄
 
-This project is an **Expense Tracker App** designed to help users manage and track their expenses efficiently. The app allows users to add, edit, and delete expense entries while providing a real-time update on their total spending. Built with JavaScript, Bootstrap, and FontAwesome, the app ensures a responsive and user-friendly experience. Future enhancements could include integrating with an external database for persistent storage and implementing user authentication.
+This project is an **Expense Tracker App** designed to help users manage and track their expenses efficiently. The app allows users to add, edit, and delete expense entries while providing a real-time update on their total spending. Built with JavaScript, Bootstrap, and FontAwesome, the app ensures a responsive and user-friendly experience. Future enhancements could include integrating with an external database for persistent storage and implementing user authentication. For now, persitent storage is handled with the local storage API.
 
 ***
 
@@ -26,23 +26,35 @@ This project is an **Expense Tracker App** designed to help users manage and tra
 ![Mobile View](/imgs/Expense-Tracker-App-mobile.png)
 *A screenshot demonstrating the app's responsive design on a mobile device.*
 
-## 3. Why I built this ❓
+## 3. Why I Built This ❓
 
-I built this project to solidify my understanding of JavaScript and Bootstrap, particularly in creating dynamic, interactive web applications. It was an opportunity to work on DOM manipulation, event handling, and local storage, enhancing my problem-solving skills and learning new techniques for managing state within the browser.
+I built this project to deepen my understanding of JavaScript and Bootstrap, particularly in creating dynamic, interactive web applications. This project allowed me to enhance my skills in DOM manipulation, event handling, and local storage, and gave me new techniques for managing state within the browser.
 
-## 4. What I learned while building this project
+## 4. What I Learned While Building This Project
 
-- **DOM Manipulation:** I gained deeper insight into dynamically updating the DOM based on user interactions, such as adding and removing rows in a table.
+- **DOM Manipulation:** I gained a better understanding of dynamically updating the DOM based on user interactions, such as adding and removing rows in a table.
 
 - **Event Handling:** This project provided extensive practice with handling various user events like form submissions, button clicks, and date validations.
 
-- **Local Storage:** I learned how to utilize the browser's local storage for persisting data, allowing the app to maintain state across page reloads.
+- **Local Storage:** I learned how to use the browser's local storage to persist data, allowing the app to maintain its state across page reloads.
 
-- **Bootstrap Integration:** Using Bootstrap's grid system and components, I created a responsive layout that adapts to different screen sizes effortlessly.
+- **The Date Object:** I improved my understanding of the *Date()* object, using it to implement several features like creating a 12-hour time format, appending **AM** or **PM** based on the time of day, and ensuring the minutes and hours are always displayed in double digits.
 
-- **JavaScript Best Practices:** Working with modular functions and maintaining clean, readable code was a key focus throughout this project.
+- **forEach(), filter(), map(), and reduce():** This project helped me deepen my understanding of these array methods. I successfully used them to manipulate data sent to and retrieved from local storage, and to update parts of the DOM accordingly.
 
-## 5.  Challenges :sweat:
+- **Bootstrap Integration:** By using Bootstrap's grid system and components, I created a responsive layout that adapts smoothly to different screen sizes.
+
+- **JavaScript Best Practices:** Throughout the project, I focused on writing modular functions and maintaining clean, readable code.
+
+## 5. Challenges 😓
+
+- **Date Validation:** Figuring out how to prevent users from entering future dates was a challenge.
+
+- **Alerts:** Implementing alerts with different colors as visual cues when users perform actions such as adding, deleting, or clearing entries, or entering invalid dates, took some trial and error.
+
+- **Dynamically Displaying a Placeholder Row:** It was challenging to figure out how to dynamically display a placeholder row based on the state of the app.
+
+- **Cleaning and Reformatting Strings:** In this project, I became familiar with cleaning and formatting substrings using methods such as *slice(), reverse(), replace(), split(), join(), and Number()*. This was particularly useful for reformatting the dates of each entry.
 
 ## 6. Tools and Resources Utilized 🔧
 
@@ -55,7 +67,7 @@ I built this project to solidify my understanding of JavaScript and Bootstrap, p
 
 ## 7. Author 🖊️
 
-Hi, I'm Benedict, an aspiring front-end developer. I enjoy working on projects that challenge my skills and contribute to my growth as a developer. If you'd like to see more of my work or connect with me, check out my blog and follow me on Twitter.
+Hi, I'm Benedict, an aspiring front-end developer. I enjoy working on projects that challenge my skills and help me grow as a developer. If you'd like to see more of my work or connect with me, check out my blog and follow me on Twitter.
 
 - Blog: [benneythedev.hashnode.dev](https://benneythedev.hashnode.dev/):link:
 - Twitter: [@CodewithNtaji](https://www.twitter.com/CodewithNtaji):link:
