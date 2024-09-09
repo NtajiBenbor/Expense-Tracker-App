@@ -162,7 +162,7 @@ function deleteEntry(e){
     //delete id
     let id = currEntry.dataset.rowId;
     // delete selected price from prices array
-    deletePriceInLocalStorage(element,id);
+    deletePriceInLocalStorage(id);
     // update total on the page
     getTotal()
     // delete selected entry 
@@ -417,16 +417,16 @@ function setTotalInLocalStorage(itemCost,id){
 } 
 
 // delete price from array of prices(total) in local storage
-function deletePriceInLocalStorage(element,id){
+function deletePriceInLocalStorage(id){
      // get item price
-     let item =  element.parentElement.parentElement.
-     previousElementSibling.previousElementSibling;
-     item = item.textContent.slice(3);
+    //  let item =  element.parentElement.parentElement.
+    //  previousElementSibling.previousElementSibling;
+    //  item = item.textContent.slice(3);
      //format from string to number
-     item = Number(item.replace(/,/g,""));
+    //  item = Number(item.replace(/,/g,""));
        // get new array of prices after filtering  
          pricesArray = pricesArray.filter(entry=>{
-         if( entry.itemCost !== item && entry.id !== id){
+         if( entry.id !== id){
              return entry;
          }
      })

@@ -6,8 +6,9 @@
 2. [Screenshots](#2-screenshots-📷)
 3. [Why I built this](#3-why-i-built-this-❓)
 4. [What I learned while building this project](#4-what-i-learned-while-building-this-project)
-5. [Tools and Resources Utilized](#5-tools-and-resources-utilized-🔧)
-6. [Author](#6-author-🖊️)
+5. [Challenges](#5-Challenges)
+6. [Tools and Resources Utilized](#6-tools-and-resources-utilized-🔧)
+7. [Author](#7-author-🖊️)
 
 ## 1. Project Overview 😄
 
@@ -18,11 +19,11 @@ This project is an **Expense Tracker App** designed to help users manage and tra
 ## 2. Screenshots 📷
 
 ### Screenshot 1
-![Expense Tracker UI](/imgs/expense-tracker-ui.png)
+![Expense Tracker UI](/imgs/Expense-Tracker-App.png)
 *A screenshot of the main user interface with several expense entries listed.*
 
 ### Screenshot 2
-![Mobile View](/imgs/expense-tracker-mobile.png)
+![Mobile View](/imgs/Expense-Tracker-App-mobile.png)
 *A screenshot demonstrating the app's responsive design on a mobile device.*
 
 ## 3. Why I built this ❓
@@ -41,7 +42,9 @@ I built this project to solidify my understanding of JavaScript and Bootstrap, p
 
 - **JavaScript Best Practices:** Working with modular functions and maintaining clean, readable code was a key focus throughout this project.
 
-## 5. Tools and Resources Utilized 🔧
+## 5.  Challenges :sweat:
+
+## 6. Tools and Resources Utilized 🔧
 
 - **HTML5**
 - **CSS3**
@@ -50,7 +53,7 @@ I built this project to solidify my understanding of JavaScript and Bootstrap, p
 - **FontAwesome Icons** [fontawesome.com](https://fontawesome.com/):link:
 - **Visual Studio Code** [code.visualstudio.com](https://code.visualstudio.com/):link:
 
-## 6. Author 🖊️
+## 7. Author 🖊️
 
 Hi, I'm Benedict, an aspiring front-end developer. I enjoy working on projects that challenge my skills and contribute to my growth as a developer. If you'd like to see more of my work or connect with me, check out my blog and follow me on Twitter.
 

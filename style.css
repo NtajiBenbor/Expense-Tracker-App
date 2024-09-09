@@ -70,7 +70,7 @@ h1,h2,h3,h4,h5,h6{
 .subtitle{
 	font-weight: 400;
 	text-transform: capitalize;
-	margin-top: .5em;
+	margin-top: .1em;
 }
 
 label{
@@ -86,14 +86,8 @@ label{
 /* table */
 table{
 	font-size: 120%;
-	/* border: 2px solid red; */
 }
 
-/* .table-body{
-	max-height: 100px;
-	overflow-y: scroll;
-	border: 2px solid red;
-} */
 
 tr .table-title{
 	font-weight: 600;
@@ -119,19 +113,17 @@ tr .table-title{
 /* ==== layout styles ==== */
 
 .section-center{
-	margin-top: 2em 
+	margin-top: .5em 
 }
 
 .form-container{
 	text-transform: capitalize;
 	margin: 0 auto;
-	/* border: 5px dotted gold; */
 }
 
 
 .center-input{
 	margin: 0 auto;
-	/* border: 2px solid green; */
 	
 }
 
@@ -145,7 +137,6 @@ tr .table-title{
 }
 
 .btns{
- /* width: 25%;*/
  border: 0; 
  background-color: transparent;
  font-weight: 800;
@@ -176,7 +167,7 @@ tr .table-title{
 }
 
 .total{
-	margin-left: 50px;
+	transform: translateX(-50px);
 }
 
 
@@ -206,13 +197,12 @@ tr .table-title{
 /* ==== media queries ==== */
 
 @media screen and (min-width: 768px) {
-	/* .form-container{
-		width: 70vw;
-	} */
-
 	.del-btn{ 
 		margin-left: 50px;
 	   }
+
+	   
+
 }
 
 
