@@ -213,10 +213,7 @@ function editEntry(e){
     // get amountSpent value
     editedCost= e.currentTarget.parentElement.parentElement.
     previousElementSibling.previousElementSibling;
-    // let item = editedCost.textContent;
-    // editedCost.textContent = item.slice(3);
-    // console.log(editedCost.textContent)
-    
+
     // update entry values
     expenseDesc.value = editedValue.textContent;
     amountSpent.value = editedCost.textContent.slice(3).trim(); 
@@ -227,7 +224,7 @@ function editEntry(e){
 
 // clear all expense entries function
 function clearAllExpenseEntries(){
-    // tableBody.replaceChildren('');
+
     // select all elements with table-row class
     const elements = document.querySelectorAll(".table-row");
     //remove the row if there is any 
@@ -418,12 +415,6 @@ function setTotalInLocalStorage(itemCost,id){
 
 // delete price from array of prices(total) in local storage
 function deletePriceInLocalStorage(id){
-     // get item price
-    //  let item =  element.parentElement.parentElement.
-    //  previousElementSibling.previousElementSibling;
-    //  item = item.textContent.slice(3);
-     //format from string to number
-    //  item = Number(item.replace(/,/g,""));
        // get new array of prices after filtering  
          pricesArray = pricesArray.filter(entry=>{
          if( entry.id !== id){
@@ -431,7 +422,6 @@ function deletePriceInLocalStorage(id){
          }
      })
      // update the value of the prices array with the results of the filter
-     // pricesArray = updatedPrices;
      localStorage.setItem("total",JSON.stringify(pricesArray));
 }
 
