@@ -98,18 +98,20 @@ function addExpense(e){
     }else if(itemValue && itemCost && editFlag){
         // update values of edited entry 
         editedValue.textContent = expenseDesc.value;
-        editedCost.textContent = amountSpent.value;
+        editedCost.textContent = `NGN ${amountSpent.value}`;
 
         //display alert
         displayAlert("entry has been modified","success");
+        
+        //edit localstorage
+         editItemInLocalStorage(editID,itemValue,itemCost,time);
         //edit the price array(total) in local storage
         editPriceInLocalStorage(editID,itemCost);
         //update total
         getTotal();
-        //edit localstorage
-         editItemInLocalStorage(editID,itemValue,itemCost,time);
         //reset to default
         resetToDefault();
+
     }
     else{
         displayAlert('invalid entry! can not submit empty fields','danger');
@@ -189,7 +191,7 @@ function deleteEntry(e){
 //edit entry function
 function editEntry(e){
     //scroll to top when the edit button is clicked
-    scrollToTopWhenEditButtonClicked()
+    scrollToTopWhenEditButtonClicked();
     // change edit flag
     editFlag = true;
     // get edit id
@@ -199,7 +201,7 @@ function editEntry(e){
     }
     editID = editID.dataset.rowId
     // update submit button
-    addItemBtn.classList.remove("btn-success")
+    addItemBtn.classList.remove("btn-success");
     addItemBtn.classList.add("btn-primary");
     addItemBtn.textContent="edit entry";
     
@@ -211,10 +213,13 @@ function editEntry(e){
     // get amountSpent value
     editedCost= e.currentTarget.parentElement.parentElement.
     previousElementSibling.previousElementSibling;
+    // let item = editedCost.textContent;
+    // editedCost.textContent = item.slice(3);
+    // console.log(editedCost.textContent)
     
     // update entry values
     expenseDesc.value = editedValue.textContent;
-    amountSpent.value = editedCost.textContent; 
+    amountSpent.value = editedCost.textContent.slice(3).trim(); 
     //disable date input field
     date.setAttribute('disabled',true);
 }
@@ -269,8 +274,8 @@ function dateValidation(){
 // calculate expenses total function
 function getTotal(){
     // dynamically asign the value based on the content of the prices array
-    pricesArray = JSON.parse(localStorage.getItem("total"));
-    let total = pricesArray.length === 1? pricesArray[0].itemCost:`0.00`;
+    pricesArray = JSON.parse(localStorage.getItem("total"))|| [];
+    let total = pricesArray.length === 1? pricesArray[0].itemCost:0.00;
     // reduce the prices array if its content are greater than one
     if(pricesArray.length > 1){
          total = pricesArray.map(item=> item.itemCost).reduce((sum,item)=> sum+item);        
@@ -299,10 +304,12 @@ function generatePlaceHolderRow(){
 }
 
 //scroll to top when the edit button is clicked
-
+/**
+ * The function `scrollToTopWhenEditButtonClicked` scrolls the window to the top of the alert container
+ * when an edit button is clicked.
+ */
 function scrollToTopWhenEditButtonClicked(){
     let position = alertContainer.getBoundingClientRect().top
-    console.log(position);
     window.scrollTo({
         top:position,
         left:0,
@@ -352,6 +359,7 @@ function deleteItemInLocalStorage(id){
 
 // edit from local storage
 function editItemInLocalStorage(editID,itemValue,itemCost,time){
+    // itemCost = itemCost.slice(3).trim();
     // get entries from local storage
     let entries = getLocalStorageItems()
     // using the map method modify the item in the entries array that matches the editID 
@@ -440,11 +448,28 @@ function deletePriceInLocalStorage(element,id){
  * value from this format
  */
 function editPriceInLocalStorage(editID,itemCost){
+
+     /* The above code is attempting to retrieve an item with the key "total" from the localStorage and
+     then parse it as a JSON object into the pricesArray variable. */
      pricesArray = JSON.parse(localStorage.getItem("total"));
-    let newCost = Number(itemCost.slice(3).replace(/,/g,""));
+
+    /* The code is extracting a substring from the `itemCost` variable starting from the 4th character
+    (index 3) to the end of the string, then removing any commas present in that substring. Finally,
+    it converts the resulting string into a number and assigns it to the `newCost` variable. */
+    let newCost = Number(itemCost.replace(/,/g,""));
+
+    /* The above code is using the `map` method to iterate over an array called `pricesArray`. For each
+    element in the array, it checks if the `id` property of the element matches a variable called
+    `editID`. If there is a match, it creates a new object with the same properties as the current
+    element but with the `itemCost` property updated to a new value specified by the `newCost`
+    variable. If there is no match, it simply returns the current element unchanged. This code
+    essentially updates the `itemCost` property of an element in the `pricesArray` */
     pricesArray = pricesArray.map(entry=>{
+        // console.log("entry:",entry)
         if(entry.id === editID){
+            // console.log("itemCost:",newCost);
             return{
+               
                 ...entry,
                 itemCost:newCost
             }
@@ -452,6 +477,10 @@ function editPriceInLocalStorage(editID,itemCost){
         return entry
     })
 
+    /* The above code is using the `localStorage.setItem` method to store the `pricesArray` data in the
+    browser's local storage. The `JSON.stringify` method is used to convert the `pricesArray` into a
+    JSON string before storing it. This allows the data to be saved locally and retrieved later for
+    use in the application. */
     localStorage.setItem("total",JSON.stringify(pricesArray));
 }
 
@@ -498,6 +527,8 @@ function setupItems(id,itemValue,itemDate,itemCost,time){
             
                  
                 //assign entry value to the table row 
+                 /* The above code is using JavaScript template literals to format a date string. It splits the `itemDate` string by the '-' delimiter, reverses the order of the resulting array elements, and then joins them back together with '-' as the delimiter. This effectively changes the date format from 'YYYY-MM-DD' to 'DD-MM-YYYY'. The resulting formatted date is then inserted into an HTML table cell
+                (`<td>`). */
                 tableRow.innerHTML = `<th scope="row">${itemValue}</th>
                 <td>${itemDate.split('-').reverse().join('-')}</td>
                 <td>NGN ${itemCost}</td>
