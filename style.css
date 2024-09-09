@@ -60,11 +60,13 @@ table {
 
 /* ==== global styles ==== */
 
-
 h1,h2,h3,h4,h5,h6{
 	font-family:'Oswald', sans-serif;
 }
 
+.text-bold{
+	font-weight: 800;
+}
 .subtitle{
 	font-weight: 400;
 	text-transform: capitalize;
