@@ -3,7 +3,7 @@
 ## Content :link:
 
 1. [Project Overview](#1-project-overview-😄)
-2. [Screenshots](#2-screenshots-📷)
+2. [Screenshot and Live-link](#2-screenshots-📷-and-live-link-🔗)
 3. [Why I Built This](#3-why-i-built-this-❓)
 4. [What I Learned While Building This Project](#4-what-i-learned-while-building-this-project)
 5. [Challenges](#5-challenges)
@@ -16,7 +16,7 @@ This project is an **Expense Tracker App** designed to help users manage and tra
 
 ***
 
-## 2. Screenshots 📷
+## 2. Screenshots 📷 and Live-link :link:
 
 ### Screenshot 1
 ![Expense Tracker UI](/imgs/Expense-Tracker-App.png)
@@ -25,6 +25,8 @@ This project is an **Expense Tracker App** designed to help users manage and tra
 ### Screenshot 2
 ![Mobile View](/imgs/Expense-Tracker-App-mobile.png)
 *A screenshot demonstrating the app's responsive design on a mobile device.*
+
+#### Try it out here: [spendtrackerapp.netlify.app](https://spendtrackerapp.netlify.app/) :link:
 
 ## 3. Why I Built This ❓
 
